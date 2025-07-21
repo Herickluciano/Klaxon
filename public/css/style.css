@@ -1,0 +1,111 @@
+.nav{
+  display: flex;
+  align-items: first baseline;
+}
+
+  .login {
+      position: relative;
+      left: 44vh;
+    }
+    .loginv {
+      position: relative;
+      left: 120vh;
+    }
+    .form-container {
+      max-width: 420px;
+      margin: 80px auto;
+      padding: 30px;
+      background-color: #fff;
+      border-radius: 10px;
+      box-shadow: 0 0 15px rgba(0,0,0,0.1);
+    }
+    .form-container h2 {
+      text-align: center;
+      margin-bottom: 25px;
+      font-weight: bold;
+      color: #0d6efd;
+    }
+    .form-container .form-control:focus {
+      box-shadow: 0 0 5px rgba(13,110,253,0.5);
+    }
+    .redirect {
+      text-align: center;
+      margin-top: 20px;
+    }
+    .redirect a {
+      text-decoration: none;
+      color: #0d6efd;
+    }
+  
+        .navbar-brand {
+            font-weight: bold;
+        }
+        .container {
+            margin-top: 20px;
+        }
+         body { font-family: Arial, sans-serif; background:#f2f2f2; padding:20px; }
+        table { border-collapse: collapse; width:100%; margin:auto; background:#fff; box-shadow:0 0 10px rgba(0,0,0,.1);}
+        th,td { border:1px solid #ccc; padding:10px; }
+        th { background:#00060c; color:#fff; }
+        a.btn   { padding:2px 6px; border-radius:3px; text-decoration:none; color:#fff;}
+        .edit   { background:#ffc107; }
+        .del    { background:#dc3545; }
+        .form-edit { width:60%; margin:30px auto; padding:20px; background:#fff; box-shadow:0 0 10px rgba(0,0,0,.1);}
+        .form-edit input[type=text] { width:100%; padding:8px; margin-bottom:10px; }
+        .form-edit input[type=submit] { padding:8px 16px; background:#28a745; color:#fff; border:none; cursor:pointer;}
+        .msg { text-align:center; color:red; font-weight:bold; }
+        body {
+  text-align: center;
+}
+button {
+  width: 100px;
+  height: 30px;
+}
+#popup {
+  display: none;
+  width: 100%;
+  height: 100%;
+  top: 0;
+  left: 0;
+  position: fixed;
+  background-color: rgba(50, 50, 50, 0.9);
+}
+#form {
+  position: absolute;
+  background-color: #f5f5f5;
+  border: 1px solid #212121;
+  border-radius: 2px;
+  padding: 20px;
+  width: 300px;
+  left: 50%;
+  top: 10%;
+  margin-left: -150px;
+}
+input {
+  width: 250px;
+  margin-bottom: 20px;
+}
+#close {
+  position: absolute;
+  font-weight: bold;
+  margin-left: 139px;
+  margin-top: -19px;
+  width: 30px;
+  height: 27px;
+}
+p1 {
+  float: left;
+  margin-left: 30px;
+}
+.cont {
+  background-color: #e3f2fd;
+  border-radius: 2px;
+  padding: 20px 50px;
+  width: 350px;
+  margin: 10px auto 10px auto;
+  text-align: left;
+  overflow: auto;
+}
+#add {
+  margin: 10px;
+}
