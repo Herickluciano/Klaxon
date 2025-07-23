@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<phpdocumentor>
+  <paths>
+    <path>app/</path>
+  </paths>
+  <title>Documentation Klaxon_MVC_PHP</title>
+  <settings>
+    <output>docs</output>
+  </settings>
+</phpdocumentor>

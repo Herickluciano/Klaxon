@@ -1,0 +1,46 @@
+[
+    {
+        "id": 5,
+        "depart": "milan",
+        "date_depart": "2025-07-22",
+        "heure_depart": "09:00:00",
+        "destination": "napoli",
+        "date_arrivee": "2025-07-22",
+        "heure_arrivee": "23:00:00",
+        "place": 8,
+        "created_at": "2025-07-21 17:42:34"
+    },
+    {
+        "id": 4,
+        "depart": "test2",
+        "date_depart": "2024-12-31",
+        "heure_depart": "21:23:00",
+        "destination": "yakro3",
+        "date_arrivee": "2025-12-01",
+        "heure_arrivee": "12:00:00",
+        "place": 4,
+        "created_at": "2025-07-21 07:36:14"
+    },
+    {
+        "id": 3,
+        "depart": "test",
+        "date_depart": "2025-02-23",
+        "heure_depart": "12:00:00",
+        "destination": "yakro3",
+        "date_arrivee": "2025-02-23",
+        "heure_arrivee": "23:00:00",
+        "place": 4,
+        "created_at": "2025-07-21 07:36:14"
+    },
+    {
+        "id": 1,
+        "depart": "abidjan",
+        "date_depart": "2025-05-30",
+        "heure_depart": "13:00:00",
+        "destination": "yakro",
+        "date_arrivee": "2025-05-30",
+        "heure_arrivee": "21:00:00",
+        "place": 2,
+        "created_at": "2025-07-21 07:36:14"
+    }
+]

@@ -31,7 +31,7 @@ if (session_status() === PHP_SESSION_NONE) {
         <div class="collapse navbar-collapse" id="navbarNav">
             <ul class="navbar-nav ms-auto text-bold ">
                 
-                <li class="nav-item"><a class="nav-link" href="/Klaxon_MVC_PHP/public/inscription_visiteur.php">Connexion</a></li>
+                <li class="nav-item"><a class="nav-link" href="/Klaxon_MVC_PHP/public/inscription.php">Connexion</a></li>
             </ul>
         </div>
     </div>

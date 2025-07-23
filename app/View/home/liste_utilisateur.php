@@ -102,7 +102,7 @@ if ($editId) {
         <td><?= htmlspecialchars($user['place']) ?></td>
         <td><?= htmlspecialchars($user['created_at']) ?></td>
         <td>
-            <a class="btn edit" href="/Klaxon_MVC_PHP/public/login_visiteur.php">Éditer</a>
+            <a class="btn edit" href="?edit=<?= $user['id'] ?>">Éditer</a>
             <a class="btn edit" id="add" onclick="show()">vue</a>
             <a class="btn del"  href="?delete=<?= $user['id'] ?>" 
                onclick="return confirm('Supprimer définitivement ?');">Supprimer</a>
@@ -117,22 +117,33 @@ if ($editId) {
 
 <?php if ($toEdit): ?>
 <form class="form-edit" method="post">
-    <h3>Édition de l’utilisateur #<?= $toEdit['id'] ?></h3>
+    <h3>Édition du trajet #<?= $toEdit['id'] ?></h3>
     <input type="hidden" name="id" value="<?= $toEdit['id'] ?>">
-    <label>Pseudo :</label>
+
+    <label>Départ :</label>
     <input type="text" name="depart" value="<?= htmlspecialchars($toEdit['depart']) ?>" required>
-    <label>Email :</label>
-    <input type="text" name="date_depart" value="<?= htmlspecialchars($toEdit['date_depart']) ?>" required>
-    <input type="hidden" name="heure_depart" value="<?= $toEdit['heure_depart'] ?>">
-    <label>Pseudo :</label>
+
+    <label>Date de départ :</label>
+    <input type="date" name="date_depart" value="<?= htmlspecialchars($toEdit['date_depart']) ?>" required>
+
+    <label>Heure de départ :</label>
+    <input type="time" name="heure_depart" value="<?= htmlspecialchars($toEdit['heure_depart']) ?>" required>
+
+    <label>Destination :</label>
     <input type="text" name="destination" value="<?= htmlspecialchars($toEdit['destination']) ?>" required>
-    <label>Email :</label>
-    <input type="text" name="date_arrivee" value="<?= htmlspecialchars($toEdit['date_arrivee']) ?>" required>
-    <input type="text" name="destination" value="<?= htmlspecialchars($toEdit['heure_arrivee']) ?>" required>
-    <label>Email :</label>
-    <input type="text" name="date_arrivee" value="<?= htmlspecialchars($toEdit['place']) ?>" required>
+
+    <label>Date d'arrivée :</label>
+    <input type="date" name="date_arrivee" value="<?= htmlspecialchars($toEdit['date_arrivee']) ?>" required>
+
+    <label>Heure d'arrivée :</label>
+    <input type="time" name="heure_arrivee" value="<?= htmlspecialchars($toEdit['heure_arrivee']) ?>" required>
+
+    <label>Nombre de places :</label>
+    <input type="number" name="place" value="<?= htmlspecialchars($toEdit['place']) ?>" required>
+
     <input type="submit" name="update" value="Mettre à jour">
 </form>
+
 <?php endif; ?>
 
 

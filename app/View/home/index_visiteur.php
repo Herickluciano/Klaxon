@@ -1,6 +1,7 @@
-<?php 
+<?php
 session_start();
 
+// Connexion à la base de données
 try {
     $con = new PDO('mysql:host=localhost;port=3306;dbname=klaxon;charset=utf8;', 'root', '');
     $con->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
@@ -10,43 +11,50 @@ try {
 
 $message = "";
 
-if (isset($_POST['submit'])) {
-    if (
-        !empty($_POST['depart']) && 
-        !empty($_POST['date_depart']) && 
-        !empty($_POST['heure_depart']) && 
-        !empty($_POST['destination']) && 
-        !empty($_POST['date_arrivee']) && 
-        !empty($_POST['heure_arrivee']) && 
-        !empty($_POST['place'])
-    ) {
-        $depart = htmlspecialchars($_POST['depart']);
-        $date_depart = htmlspecialchars($_POST['date_depart']);
-        $heure_depart = htmlspecialchars($_POST['heure_depart']);
-        $destination = htmlspecialchars($_POST['destination']);
-        $date_arrivee = htmlspecialchars($_POST['date_arrivee']);
-        $heure_arrivee = htmlspecialchars($_POST['heure_arrivee']);
-        $place = htmlspecialchars($_POST['place']);
+// Vérification de la soumission du formulaire
+if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['submit'])) {
 
-        // Vérification 
-        $checkUser = $con->prepare('SELECT * FROM t_trajet WHERE depart = ? AND date_depart = ? AND heure_depart = ? AND destination = ? AND date_arrivee = ? AND heure_arrivee = ? AND place = ?');
-        $checkUser->execute([$depart, $date_depart, $heure_depart, $destination, $date_arrivee, $heure_arrivee, $place]);
+    // Vérifie que tous les champs sont remplis
+    $requiredFields = ['depart', 'date_depart', 'heure_depart', 'destination', 'date_arrivee', 'heure_arrivee', 'place'];
+    $missing = array_filter($requiredFields, fn($field) => empty(trim($_POST[$field])));
 
-        if ($checkUser->rowCount() > 0) {
-            $message = "<div class='alert alert-danger'>❌ Trajet déjà existant.</div>";
+    if (empty($missing)) {
+        // Nettoyage des données
+        $depart = htmlspecialchars(trim($_POST['depart']));
+        $date_depart = $_POST['date_depart'];
+        $heure_depart = $_POST['heure_depart'];
+        $destination = htmlspecialchars(trim($_POST['destination']));
+        $date_arrivee = $_POST['date_arrivee'];
+        $heure_arrivee = $_POST['heure_arrivee'];
+        $place = (int) $_POST['place'];
+
+        if ($place <= 0) {
+            $message = "<div class='alert alert-warning'>⚠️ Le nombre de places doit être supérieur à zéro.</div>";
         } else {
-            // Insertion
-            $insertUser = $con->prepare('INSERT INTO t_trajet(depart, date_depart, heure_depart, destination, date_arrivee, heure_arrivee, place) VALUES (?, ?, ?, ?, ?, ?, ?)');
-            $insertUser->execute([$depart, $date_depart, $heure_depart, $destination, $date_arrivee, $heure_arrivee, $place]);
+            // Vérifie si le trajet existe déjà
+            $check = $con->prepare('
+                SELECT COUNT(*) FROM t_trajet 
+                WHERE depart = ? AND date_depart = ? AND heure_depart = ? 
+                  AND destination = ? AND date_arrivee = ? AND heure_arrivee = ? AND place = ?
+            ');
+            $check->execute([$depart, $date_depart, $heure_depart, $destination, $date_arrivee, $heure_arrivee, $place]);
 
-            $lastId = $con->lastInsertId();
-            $_SESSION['id_trajet'] = $lastId;
+            if ($check->fetchColumn() > 0) {
+                $message = "<div class='alert alert-danger'>❌ Ce trajet existe déjà.</div>";
+            } else {
+                // Insertion dans la base
+                $stmt = $con->prepare('
+                    INSERT INTO t_trajet (depart, date_depart, heure_depart, destination, date_arrivee, heure_arrivee, place)
+                    VALUES (?, ?, ?, ?, ?, ?, ?)
+                ');
+                $stmt->execute([$depart, $date_depart, $heure_depart, $destination, $date_arrivee, $heure_arrivee, $place]);
 
-            $message = "<div class='alert alert-success'>✅ Trajet ajouté avec succès !</div>";
+                $_SESSION['id_trajet'] = $con->lastInsertId();
 
-            // Redirection :
-             header('Location: liste_admin.php');
-             exit();
+                // Redirection
+                header('Location: liste_admin.php?success=1');
+                exit();
+            }
         }
     } else {
         $message = "<div class='alert alert-warning'>⚠️ Veuillez remplir tous les champs.</div>";
@@ -54,16 +62,13 @@ if (isset($_POST['submit'])) {
 }
 ?>
 
-
-
-
 <!DOCTYPE html>
 <html lang="fr">
 <head>
     <meta charset="UTF-8">
-    <title>Ajouter un nouveau Trajet</title>
+    <title>Ajouter un Trajet</title>
     <meta name="viewport" content="width=device-width, initial-scale=1">
-    <!-- Bootstrap CSS CDN -->
+    <!-- Bootstrap CSS -->
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
 </head>
 <body class="bg-light">
@@ -71,16 +76,16 @@ if (isset($_POST['submit'])) {
 <div class="container mt-5">
     <div class="card shadow-sm">
         <div class="card-header bg-dark text-white">
-            <h4 class="mb-0">Ajouter un nouveau Trajet</h4>
+            <h4 class="mb-0">Ajouter un trajet</h4>
         </div>
         <div class="card-body">
-            <?= $message ?? '' ?>
+            <?= $message ?>
 
-            <form method="post">
+            <form method="post" novalidate>
                 <div class="row mb-3">
                     <div class="col">
                         <label for="depart" class="form-label">Départ</label>
-                        <input type="text" class="form-control" id="depart" name="depart" required autocomplete="off">
+                        <input type="text" class="form-control" id="depart" name="depart" required>
                     </div>
                     <div class="col">
                         <label for="date_depart" class="form-label">Date de départ</label>
@@ -95,7 +100,7 @@ if (isset($_POST['submit'])) {
                 <div class="row mb-3">
                     <div class="col">
                         <label for="destination" class="form-label">Destination</label>
-                        <input type="text" class="form-control" id="destination" name="destination" required autocomplete="off">
+                        <input type="text" class="form-control" id="destination" name="destination" required>
                     </div>
                     <div class="col">
                         <label for="date_arrivee" class="form-label">Date d'arrivée</label>
@@ -118,7 +123,8 @@ if (isset($_POST['submit'])) {
     </div>
 </div>
 
-<!-- Bootstrap ) -->
+<!-- Bootstrap JS -->
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+
 </body>
 </html>
